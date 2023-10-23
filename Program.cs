@@ -9,14 +9,14 @@ namespace ISM6225_Fall_2023_Assignment_2
         static void Main(string[] args)
         {
             //Question 1:
-           /* Console.WriteLine("Question 1:");
+            Console.WriteLine("Question 1:");
             int[] nums1 = { 0, 1, 3, 50, 75 };
             int upper = 99, lower = 0;
             IList<IList<int>> missingRanges = FindMissingRanges(nums1, lower, upper);
             string result = ConvertIListToNestedList(missingRanges);
             Console.WriteLine(result);
             Console.WriteLine();
-            Console.WriteLine();*/
+            Console.WriteLine();
 
             //Question2:
             Console.WriteLine("Question 2");
@@ -106,11 +106,34 @@ namespace ISM6225_Fall_2023_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
+               // checking the array whether it is null 
+                if (nums == null || nums.Length == 0)
+                {
+                    // if there are no numbers provided return the values from asecnding order
+                    return new List<IList<int>> { GetRange(lower, upper) };
+                }
+                // Intilizing a list  to store the missing values 
+                IList<IList<int>> MR = new List<IList<int>>();
+                long st = (long)lower;
 
-
-
-                return new List<IList<int>>();
+                // itreating the numbers 
+                foreach (int num in nums)
+                {
+                    if (num > st)
+                    {
+                        MR.Add(GetRange(st, num - 1));
+                    }
+                    // updating the count to next number
+                    st = (long)num + 1;  
+                }
+                // checking the range by taking previous number
+                if (st <= upper)
+                {
+                  
+                  MR.Add(GetRange(st, upper));
+                }
+                // returing the list of missing ranges
+                return MR;
             }
             catch (Exception)
             {
@@ -118,7 +141,14 @@ namespace ISM6225_Fall_2023_Assignment_2
             }
 
         }
+        public static IList<int> GetRange(long start, long end)
+        {
+           
+            return new List<int> { (int)start, (int)end };
+        }
 
+
+           
         /*
          
         Question 2
@@ -153,10 +183,10 @@ namespace ISM6225_Fall_2023_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
+        
                 //Intilizing a new stack
                 Stack<char> st = new Stack<char>();
-               
+                //itreate  through each char
                 foreach (char c in s)
                 {
                     // check if the char is open bracket 
@@ -177,7 +207,7 @@ namespace ISM6225_Fall_2023_Assignment_2
                         if (c == ']' && openBracket != '[') return false;
                     }
                 }
-
+              
                 return st.Count == 0;
                 return s.Length == 0;
             }
@@ -213,41 +243,45 @@ namespace ISM6225_Fall_2023_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
+               
 
-                {
+                { 
+                    // checking the input prices array is null 
+                    // checking if it has less than two elements
                     if (prices == null || prices.Length < 2)
                     {
-                        // If there are not enough days for transactions, return 0 profit.
+                       
+                        
                         return 0;
                     }
-
+                    // intilizing the min and max values 
                     int MP = prices[0];
                     int MaxP = 0;
 
-                    // Iterate through the prices to find the maximum profit.
+                    // finding the max profit
                     for (int i = 1; i < prices.Length; i++)
                     {
                         int cp= prices[i];
 
                         if (cp< MP)
                         {
-                            // Update the minimum price if a lower price is found.
+                          // updating the min price is needed
                             MP = cp;
                         }
                         else
                         {
-                            // Calculate the profit if we sell at the current price.//potential profit
+                           // checking the profit 
                             int pp = cp - MP;
                             if (pp > MaxP)
                             {
+                                //  updating the max price 
                                 MaxP = pp;
                             }
                         }
                     }
-
+                    // returing the max price
                     return MaxP;
-                    // Write your code here and you can modify the return value according to the requirements
+               
 
                     return 1;
                 }
@@ -290,10 +324,37 @@ namespace ISM6225_Fall_2023_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
+               // Intilizing the pointers 
+                int l = 0;
+                int r = s.Length - 1;
+                // itreating while l less than s 
+                while (l <= r)
+                {
+                    //getting the left char 
+                    char lC = s[l];
+                    //getting the right char
+                    char rc = s[r];
+                    // checking the char is strobogrammatic 
+                    if (lC == '0' && rc == '0' ||
+                        lC == '1' && rc == '1' ||
+                        lC == '8' && rc == '8' ||
+                        lC == '6' && rc == '9' ||
+                        lC== '9' && rc == '6')
+                    {
+                        // if it is strobogrammatic go ahead
+                        l++;
+                        r--;
+                    }
+                    else
+                    {
+                        // return false if it not 
+                        return false;
+                    }
+                }
+                // if it is strobogrammatic return true
+                return true;
 
 
-                return false;
             }
             catch (Exception)
             {
@@ -334,24 +395,24 @@ namespace ISM6225_Fall_2023_Assignment_2
         {
             try
             {
-                //Creating an array
-                int[] oc = new int[101]; // Since 1 <= nums[i] <= 100
+                //Creating an array to store the every occurence
+                int[] oe = new int[101]; 
+                
+                int gp = 0;
 
-                int goodPairs = 0;
-
-                //Itreating the arrays as needed
+                //itreating through an array
                 foreach (int num in nums)
                 {
                     
                     //increse the goodParis by every count for every occurence
-                    goodPairs += oc[num];
+                    gp += oe[num];
 
            
-                    // Incrementing
-                    oc[num]++;
+                    // Incrementing the count 
+                    oe[num]++;
                 }
-
-                return goodPairs;
+                // returing total count
+                return gp;
                 return 0;
             }
             catch (Exception)
@@ -401,8 +462,7 @@ namespace ISM6225_Fall_2023_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
-
+               
 
                 // Storing an unique numbers in decresing order
                 HashSet<int> un = new HashSet<int>(nums);
@@ -448,22 +508,25 @@ namespace ISM6225_Fall_2023_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
+    
+                //Initilizing a new list to store
                 IList<string> PM = new List<string>();
 
-                // Iterate through the string to find valid moves
+                //Itreating the string
                 for (int i = 0; i < currentState.Length - 1; i++)
                 {
+                    // checking for the next character 
                     if (currentState[i] == '+' && currentState[i + 1] == '+')
                     {
-                        // Make a move by flipping "++" to "--"
-                        char[] nextState = currentState.ToCharArray();
-                        nextState[i] = '-';
-                        nextState[i + 1] = '-';
-                       PM.Add(new string(nextState));
+                        
+                        char[] ns = currentState.ToCharArray();
+                        ns[i] = '-';
+                        ns[i + 1] = '-';
+                        //adding new state to the possible moves 
+                        PM.Add(new string(ns));
                     }
                 }
-
+                // returing the moves
                 return PM;
                 return new List<string>() { };
             }
@@ -493,16 +556,16 @@ namespace ISM6225_Fall_2023_Assignment_2
 
         public static string RemoveVowels(string s)
         {
-            // Converting String
+            // Converting the string into char array
             char[] cA = s.ToCharArray();
 
-            // Creating a String Builder
+            // Creating a String Builder for result
             System.Text.StringBuilder r = new System.Text.StringBuilder();
 
-            // itreating each time
+            // itreating each time in the array
             foreach (char c in cA)
             {
-                // checking the algoritm
+             // checking the vowels 
                 if (c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u')
                 {
                     
@@ -510,7 +573,7 @@ namespace ISM6225_Fall_2023_Assignment_2
                 }
             }
 
-            // Converting StringBuilder to a string
+            // Converting StringBuilder to a string to enclose 
 
             return $"\"{r.ToString()}\"";
         }
